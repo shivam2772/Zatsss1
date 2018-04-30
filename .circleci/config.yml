@@ -27,8 +27,8 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
         
       # run tests!
-     # - run: yarn test
-      - run: yarn lint
+      - run: yarn test
+      #- run: yarn lintfix
       - run: yarn lintfix
   deploy-job:
     docker:

@@ -1,0 +1,60 @@
+version: 2
+general: 
+  branches:
+    only:
+      - master
+      - /Feature1-.*/
+jobs:
+  build:
+    docker:
+      - image: circleci/node:7.10
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "package.json" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
+
+      - run: yarn install
+      # - run: docker ps -a
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+        
+      # run tests!
+      - run: yarn test
+      - run: yarn lint
+      - run: yarn lintfix
+  deploy-job:
+    docker:
+      - image: circleci/node:7.10
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - run: wget https://cli-assets.heroku.com/branches/stable/heroku-linux-amd64.tar.gz
+          sudo mkdir -p /usr/local/lib /usr/local/bin
+          sudo tar -xvzf heroku-linux-amd64.tar.gz -C /usr/local/lib
+          sudo ln -s /usr/local/lib/heroku/bin/heroku /usr/local/bin/heroku
+      - run:
+          name: Deploy Master to Heroku
+          command: |  # this command is framework-dependent and may vary
+            heroku git:remote -a sapient-team-1
+            git push --force https://heroku:ba0067de-4423-4f73-9df6-7d756fce16a3@git.heroku.com/sapient-team-1.git HEAD:refs/heads/master
+            sleep 5  # sleep for 5 seconds to wait for dynos
+            heroku restart
+workflows:
+  version: 2
+  build-deploy:
+    jobs:
+      - build
+      - deploy-job:  # only deploy when master successfully builds
+          requires:
+            - build
+          filters:
+            branches:
+              only: master

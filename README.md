@@ -1,1 +1,2 @@
-# Zatsss1
+# ZATSSS
+Creating the one and only ZATSSS application

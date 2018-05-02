@@ -48,6 +48,7 @@ class CreateChannel extends React.Component {
   handleSubmit = (event) => {
     event.preventDefault();
    
+    this.props.fun();
     console.log("x "+this.state.list.value);
     console.log("list item "+this.state.list.val);
     console.log("list "+this.state.list);
@@ -76,7 +77,7 @@ class CreateChannel extends React.Component {
                 inputProps={{ 'aria-label': 'Description', }}
                 val={this.state.val} onChange={this.handlePurpose} />
             <br />
-            <button type="submit">Submit</button>
+            <button type="submit" >Submit</button>
           </form>
           
           </Paper>

@@ -9,7 +9,7 @@ import IconButton from 'material-ui/IconButton';
 import Hidden from 'material-ui/Hidden';
 import Divider from 'material-ui/Divider';
 import MenuIcon from '@material-ui/icons/Menu';
-import { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
+import { ListItem, ListItemSecondaryAction, ListItemIcon, ListItemText } from 'material-ui/List';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import StarIcon from '@material-ui/icons/Star';
 import TemporaryDrawer from './SideBar';
@@ -46,7 +46,7 @@ const styles = theme => ({
 
   adornmentamount: {
    width:'80%',
-   marginTop:'53%',
+   marginTop:'47%',
    paddingleft:'10px;',
    
    position:'relative',
@@ -156,6 +156,7 @@ class ResponsiveDrawer extends React.Component {
         firebase.database().ref('channels/'+ChannelID.toString()).set({
             channelname: newChannel.val,
             description: '',
+            ChannelID: ChannelID.toString(),
             members: sampleMembers,
             messages: sampleMessages
         });
@@ -201,8 +202,8 @@ class ResponsiveDrawer extends React.Component {
            console.log("console from component mount: ",this.state.users);
        });
 
-  let channel = [];        
-  const channelList = firebase.database().ref('channels/').once('value').then((snapshot) => {
+  const channelList = firebase.database().ref('channels/').on('value', (snapshot) => {
+          let channel = [];  
            console.log("Channels: ", snapshot.val());
            let channelArr = snapshot.val();
            let obj;
@@ -260,9 +261,15 @@ class ResponsiveDrawer extends React.Component {
      this.addUsers();
    }
 
+   unset = () => {
+      this.setState({openCreateChannel: false});
+   }
+
    async hello(id){
 
      let currentUID,currentUName;
+
+     this.setState({openCreateChannel: false});
 
   await firebase.auth().onAuthStateChanged((user) => {
              if (user) {
@@ -303,14 +310,18 @@ class ResponsiveDrawer extends React.Component {
            console.log(msgArr);
            for(obj in msgArr){
              console.log(msgArr[obj].content);
-             msgs.push(msgArr[obj].content);
+             if(msgArr[obj].type === 'sent'){
+              msgs.push({time: msgArr[obj].time,content: msgArr[obj].content, name: this.state.currentUserName});
+            }
+             else{
+                msgs.push({time: msgArr[obj].time, content: msgArr[obj].content, name: this.state.chatUserName});
+             }
            }
            this.setState({currentmsgs: msgs});
            console.log("console from component mount: ",msgs);
-       }); 
-    
-    //this.style.color='red';
-   }
+       });
+
+       } 
 
    handleChatChange = (e) => {
     this.setState({currentchat: e.target.value});
@@ -322,9 +333,10 @@ class ResponsiveDrawer extends React.Component {
       console.log('handle submit');
       let d = new Date();
       let n = d.getTime().toString();
+      console.log(d.toString().substr(4,20));
       let msg = {
         content: this.state.currentchat,
-        time : n,
+        time : d.toString().substr(4,17),
         type: 'sent'
       }
       this.setState({currentchat: ''});
@@ -339,7 +351,7 @@ class ResponsiveDrawer extends React.Component {
 
      let msg2 = {
         content: this.state.currentchat,
-        time : n,
+        time : d.toString().substr(4,17),
         type: 'recieved'
      }
 
@@ -373,11 +385,14 @@ class ResponsiveDrawer extends React.Component {
       if(this.state.currentmsgs){      
       msgs = this.state.currentmsgs.map( (item) => {
         return(
+        <List>
           <ListItem >
-                <ListItemText primary={item}
+                <ListItemText primary={item.content} secondary = {item.name}
                 style={{float:"left", color: '#ffffff', fontSize: '18px', marginLeft: '10px' }} />
-                      
+                <ListItemSecondaryAction> {item.time} </ListItemSecondaryAction>    
           </ListItem>
+          <Divider/>
+          </List>
         )
       })
     }
@@ -474,7 +489,9 @@ class ResponsiveDrawer extends React.Component {
         </Hidden>
         <main className={classes.content}>
           <div className={classes.toolbar} />
-          {msgs}
+          {this.state.openCreateChannel && <CreateChannel fun={this.unset} channels={this.createChannels} />}
+         {!this.state.openCreateChannel && msgs}
+
           <InputLabel htmlFor="adornment-amount"></InputLabel>
 
          <Input value={this.state.currentchat} onChange={this.handleChatChange.bind(this)}
@@ -484,7 +501,7 @@ class ResponsiveDrawer extends React.Component {
 
          />
              <button onClick={this.handleChatSubmit.bind(this)} class="material-icons">send</button>
-          {this.state.openCreateChannel && <CreateChannel channels={this.createChannels} />}
+        
         </main>
       </div>
     );

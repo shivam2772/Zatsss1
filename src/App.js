@@ -5,18 +5,18 @@ import {
   Route,
   Link,
   Switch,
-  Redirect,
-} from 'react-router-dom';
+  Redirect
+} from 'react-router-dom'
 import Login from './login';
 import './App.css';
-
 class App extends Component {
+  
   render() {
     return (
       <div>
         <Router>
           <fragment>
-            <Route exact exact path="/" component={Login} />
+            <Route exact={true} exact path="/"  component={Login} />
             <Route path="/Router" component={ResponsiveDrawer} />
           </fragment>
         </Router>

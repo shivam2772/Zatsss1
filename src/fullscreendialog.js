@@ -38,7 +38,7 @@ const styles = theme => ({
     paddingLeft: '10px',
     marginLeft: '10px',
     boxShadow: '0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)',
-    
+
   },
 });
 function Transition(props) {
@@ -48,16 +48,16 @@ function Transition(props) {
 class FullScreenDialog extends React.Component {
   state = {
     open: false,
-    inputIs:'',
-    people:[
-      {id:0 , person:'raja'},
-      {id:1 , person:'rahul'},
-      {id:2 , person:'zunaid'},
-      {id:3 , person:'tushar'},
-      {id:4 , person:'akash'},
-      {id:5 , person:'arvind'},
+    inputIs: '',
+    people: [
+      { id: 0, person: 'raja' },
+      { id: 1, person: 'rahul' },
+      { id: 2, person: 'zunaid' },
+      { id: 3, person: 'tushar' },
+      { id: 4, person: 'akash' },
+      { id: 5, person: 'arvind' },
     ],
-    Nid:6,
+    Nid: 6,
   };
 
   handleClickOpen = () => {
@@ -67,32 +67,31 @@ class FullScreenDialog extends React.Component {
     this.setState({ open: false });
   }
   handleChange = (event) => {
-    let input_text = event.target.value;
-    this.setState({inputIs:input_text});
+    const input_text = event.target.value;
+    this.setState({ inputIs: input_text });
     // console.log("text input "+this.state.inputIs);
   }
-  
+
   render() {
     const { classes } = this.props;
-    const call = <div>
-                  {
-                    this.state.people.map((items)=>{
-                      if(items.person===this.state.inputIs){
-                        return(
-                           <ListItem key={items.id} dense button className={classes.listItem} style={{background: 'beige',marginBottom: '6px'}}>
-                            <ListItemText primary={items.person} style={{color: '#ffffff', fontSize: '18px', marginLeft: '10px'}}/>
-                          </ListItem> 
+    const call = (<div>
+      {
+                    this.state.people.map((items) => {
+                      if (items.person === this.state.inputIs) {
+                        return (
+                          <ListItem key={items.id} dense button className={classes.listItem} style={{ background: 'beige', marginBottom: '6px' }}>
+                            <ListItemText primary={items.person} style={{ color: '#ffffff', fontSize: '18px', marginLeft: '10px' }} />
+                          </ListItem>
                         );
                       }
-                    }
-                    )
+                    })
                   }
-                </div>;
+                  </div>);
     return (
       <div>
         <Button onClick={this.handleClickOpen}>Direct Messages</Button>
         <Dialog
-          className = {classes.dialog}
+          className={classes.dialog}
           fullScreen
           open={this.state.open}
           onClose={this.handleClose}
@@ -108,20 +107,20 @@ class FullScreenDialog extends React.Component {
               </Typography>
             </Toolbar>
           </AppBar>
-            <div className={classes.SearchBox}>
-              <Input
-                className={classes.SearchInput}
-                placeholder='Search...'
-                onChange={this.handleChange}
-                inputProps={{
+          <div className={classes.SearchBox}>
+            <Input
+              className={classes.SearchInput}
+              placeholder="Search..."
+              onChange={this.handleChange}
+              inputProps={{
                   'aria-label': 'Description',
                 }}
-              />
-            </div>
-            <Divider/>
-            <div>
-              {call}
-            </div>
+            />
+          </div>
+          <Divider />
+          <div>
+            {call}
+          </div>
         </Dialog>
       </div>
     );
@@ -132,4 +131,4 @@ FullScreenDialog.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(FullScreenDialog)
+export default withStyles(styles)(FullScreenDialog);

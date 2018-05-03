@@ -4,7 +4,7 @@ import { withStyles } from 'material-ui/styles';
 import Drawer from 'material-ui/Drawer';
 import List from 'material-ui/List';
 import Divider from 'material-ui/Divider';
-import SideBar  from './tileData';
+import SideBar from './tileData';
 
 const styles = {
   list: {
@@ -33,7 +33,7 @@ class TemporaryDrawer extends React.Component {
       <div className={classes.list}>
         <List>About #General</List>
         <Divider />
-        <List><SideBar text={this.props.members}/></List>
+        <List><SideBar text={this.props.members} /></List>
         <Divider />
       </div>
     );
@@ -41,10 +41,12 @@ class TemporaryDrawer extends React.Component {
     return (
       <div>
         <div>
-          <i class="material-icons"
+          <i
+            className="material-icons"
             onClick={this.toggleDrawer('right', true)}
             color="inherit"
-          >info_outline</i>
+          >info_outline
+          </i>
         </div>
         <Drawer anchor="right" open={this.state.right} onClose={this.toggleDrawer('right', false)}>
           <div

@@ -1,22 +1,22 @@
 import React, { Component } from 'react';
-import ResponsiveDrawer from './ResponsiveDrawer';
-import {
-  HashRouter as Router,
-  Route,
-  Link,
-  Switch,
-  Redirect
-} from 'react-router-dom'
+import { HashRouter as Router, Route } from 'react-router-dom';
+import { ResponsiveDrawer } from './ResponsiveDrawer';
 import Login from './login';
 import './App.css';
+
 class App extends Component {
-  
+  constructor() {
+    super();
+    this.state = {
+
+    };
+  }
   render() {
     return (
       <div>
         <Router>
           <fragment>
-            <Route exact={true} exact path="/"  component={Login} />
+            <Route exact path="/" component={Login} />
             <Route path="/Router" component={ResponsiveDrawer} />
           </fragment>
         </Router>

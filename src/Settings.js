@@ -9,12 +9,12 @@ import {
   Route,
   Link,
   Switch,
-  Redirect
-} from 'react-router-dom'
+  Redirect,
+} from 'react-router-dom';
 import Dialog, {
   DialogActions,
   DialogContent,
-  //DialogContentText,
+  // DialogContentText,
   DialogTitle,
 } from 'material-ui/Dialog';
 
@@ -66,31 +66,31 @@ class Settings extends React.Component {
     auth: true,
     anchorEl: null,
     open: false,
-    texts:'',
+    texts: '',
   };
 
-  handleMenu = event => {
+  handleMenu = (event) => {
     this.setState({ anchorEl: event.currentTarget });
   };
   handleClickOpen = () => {
     this.setState({ open: true });
   };
   handleClose = () => {
-    console.log("hello "+this.props.text);
+    console.log(`hello ${this.props.text}`);
     this.setState({ anchorEl: null });
     this.setState({ open: false });
   };
   handleSearch = (event) => {
     this.state.texts = event.target.value;
-    this.setState({texts: event.target.value});
+    this.setState({ texts: event.target.value });
   };
   handleClose2 = () => {
-    console.log("hello "+this.state.texts);
+    console.log(`hello ${this.state.texts}`);
     this.props.meth(this.state.texts);
     this.setState({ anchorEl: null });
     this.setState({ open: false });
   };
-  
+
   render() {
     const { classes, theme } = this.props;
     const { anchorEl } = this.state;
@@ -99,29 +99,31 @@ class Settings extends React.Component {
     return (
       <div>
         <div>
-          <i class="material-icons"
+          <i
+            className="material-icons"
             aria-owns={open ? 'menu-appbar' : null}
             aria-haspopup="true"
             onClick={this.handleMenu}
             color="inherit"
-          >settings</i>
+          >settings
+          </i>
         </div>
         <Menu
-            id="menu-appbar"
-            anchorEl={anchorEl}
-            anchorOrigin={{
+          id="menu-appbar"
+          anchorEl={anchorEl}
+          anchorOrigin={{
               vertical: 'top',
               horizontal: 'right',
             }}
-            transformOrigin={{
+          transformOrigin={{
               vertical: 'top',
               horizontal: 'right',
             }}
-            open={open}
-            onClose={this.handleClose}
+          open={open}
+          onClose={this.handleClose}
         >
-            <MenuItem onClick={this.handleClickOpen}>Invite new member</MenuItem>
-            <MenuItem onClick={this.props.signOut}>Sign Out</MenuItem>
+          <MenuItem onClick={this.handleClickOpen}>Invite new member</MenuItem>
+          <MenuItem onClick={this.props.signOut}>Sign Out</MenuItem>
         </Menu>
         <div>
           <Dialog
@@ -138,7 +140,7 @@ class Settings extends React.Component {
                 label="Enter Name"
                 type="name"
                 fullWidth
-                onChange = {this.handleSearch.bind(this)}
+                onChange={this.handleSearch.bind(this)}
               />
             </DialogContent>
             <DialogActions>

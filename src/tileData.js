@@ -65,11 +65,11 @@ const styles = theme => ({
   },
 });
 
-class SideBar extends React.Component{
-  constructor(props){
+class SideBar extends React.Component {
+  constructor(props) {
     super(props);
-    this.state={
-      list : ['Tushar','Satyam'],
+    this.state = {
+      list: ['Tushar', 'Satyam'],
       expanded: null,
     };
   }
@@ -79,52 +79,50 @@ class SideBar extends React.Component{
       expanded: expanded ? panel : false,
     });
   };
-  render(){
+  render() {
     const { classes } = this.props;
     const { expanded } = this.state;
-    const tod = this.props.text.map((test)=>{
-                    return(
-                        <ListItem
-                          key={test.person}
-                          role={undefined}
-                          dense
-                          button
-                          className={classes.listItem}
-                        >
-                          <ListItemText primary={test.person} />
-                        </ListItem>
-                    );
-                  });
-    return(
-        <div>
-          <ExpansionPanel expanded={expanded === 'panel1'} onChange={this.handleChange('panel1')}>
-            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-              <div>
-                <i class="material-icons">info_outline</i>
-              </div>
-              <Typography className={classes.heading}>Channel Details</Typography>
-            </ExpansionPanelSummary>
-            <ExpansionPanelDetails>
-              <Typography>
+    const tod = this.props.text.map(test => (
+      <ListItem
+        key={test.person}
+        role={undefined}
+        dense
+        button
+        className={classes.listItem}
+      >
+        <ListItemText primary={test.person} />
+      </ListItem>
+    ));
+    return (
+      <div>
+        <ExpansionPanel expanded={expanded === 'panel1'} onChange={this.handleChange('panel1')}>
+          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+            <div>
+              <i className="material-icons">info_outline</i>
+            </div>
+            <Typography className={classes.heading}>Channel Details</Typography>
+          </ExpansionPanelSummary>
+          <ExpansionPanelDetails>
+            <Typography>
                 Nulla facilisi. Phasellus sollicitudin nulla et quam mattis feugiat. Aliquam eget
                 maximus est, id dignissim quam.
-              </Typography>
-            </ExpansionPanelDetails>
-          </ExpansionPanel>
-          <ExpansionPanel expanded={expanded === 'panel1'} onChange={this.handleChange('panel1')}>
-            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-              <div>
-                <i class="material-icons">group</i>
-              </div>
-              <Typography className={classes.heading}>Members</Typography>
-            </ExpansionPanelSummary>
-            <ExpansionPanelDetails>
-              <Typography>
-                {tod}
-              </Typography>
-            </ExpansionPanelDetails>
-          </ExpansionPanel>
-        </div>
+            </Typography>
+          </ExpansionPanelDetails>
+        </ExpansionPanel>
+        <ExpansionPanel expanded={expanded === 'panel1'} onChange={this.handleChange('panel1')}>
+          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+            <div>
+              <i className="material-icons">group</i>
+            </div>
+            <Typography className={classes.heading}>Members</Typography>
+          </ExpansionPanelSummary>
+          <ExpansionPanelDetails>
+            <Typography>
+              {tod}
+            </Typography>
+          </ExpansionPanelDetails>
+        </ExpansionPanel>
+      </div>
     );
   }
 }
